@@ -1,7 +1,6 @@
 import '@/styles/globals.css';
 
 import { Inter } from 'next/font/google';
-import { cookies } from 'next/headers';
 import { TRPCReactProvider } from '@/trpc/react';
 import Navbar from '@/components/Navbar';
 import { cn } from '@/lib/utils';
@@ -13,7 +12,7 @@ const inter = Inter({
 });
 
 export const metadata = {
-  title: 'Stip',
+  title: 'Md.',
   description: 'Stremline Student Management',
   icons: [{ rel: 'icon', url: '/favicon.ico' }],
 };
@@ -26,7 +25,7 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body className={cn(`font-sans`, inter.variable)}>
-        <TRPCReactProvider cookies={cookies().toString()}>
+        <TRPCReactProvider>
           <ClientProviders>
             <Navbar />
             {children}
