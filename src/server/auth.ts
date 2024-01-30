@@ -48,7 +48,12 @@ function dumbAdapter(
 export const authOptions: NextAuthOptions = {
   // @fix: make the session callback object smaller
   callbacks: {
-    session: ({ session, user }) => ({ ...session, user }),
+    session: ({ session, user }) => {
+      return {
+        ...session,
+        user: { id: user.id, email: user.email, name: user.name },
+      };
+    },
   },
   adapter: DrizzleAdapter(
     db,
