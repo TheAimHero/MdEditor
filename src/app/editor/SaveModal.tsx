@@ -26,38 +26,38 @@ import {
   Form,
 } from '@/components/ui/form';
 import { useToast } from '@/components/ui/use-toast';
-
-interface Props {
-  data: string;
-  initialFileName: string;
-}
+import { type OptionProps, type localFileDataType } from '@/lib/types';
 
 const FormSchema = z.object({
   fileName: z.string().min(2, { message: "File name can't be empty" }),
 });
 
-const SaveModal: FC<Props> = ({ data, initialFileName }) => {
+const SaveModal: FC<OptionProps> = ({ data, setData }) => {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
-    defaultValues: { fileName: initialFileName ?? '' },
+    defaultValues: { fileName: data?.name ?? '' },
   });
   const { toast } = useToast();
   const [open, setOpen] = useState(false);
   useEffect(() => {
-    form.setValue('fileName', initialFileName);
-  }, [initialFileName, form]);
+    form.setValue('fileName', data?.name ?? '');
+  }, [data?.name, form]);
   function onSubmit(formData: z.infer<typeof FormSchema>) {
-    const fileList: string[] = [];
+    const fileList: { item: string; fileData: localFileDataType }[] = [];
     for (let index = 0; index < localStorage.length; index++) {
       const item = localStorage.key(index);
       if (item?.includes('mdEditor-')) {
-        fileList.push(item.split('-')[1]!);
+        const fileData = JSON.parse(
+          localStorage.getItem(item)!,
+        ) as localFileDataType;
+        fileList.push({ fileData, item });
       }
     }
-    if (
-      fileList.some((fileName) => fileName === formData.fileName) &&
-      initialFileName === ''
-    ) {
+    const fileExist = fileList.some(
+      (file) =>
+        file.fileData.name.toLowerCase() === formData.fileName.toLowerCase(),
+    );
+    if (fileExist) {
       toast({
         title: 'File name already exists',
         description: 'Please choose a different name',
@@ -66,12 +66,26 @@ const SaveModal: FC<Props> = ({ data, initialFileName }) => {
       form.setValue('fileName', '');
       return;
     }
-    localStorage.setItem(`mdEditor-${formData.fileName}`, data);
+    const removeFileKey = data?.name.trim().toLowerCase().replace(/\s+/g, '_');
+    localStorage.removeItem(`mdEditor-${removeFileKey}`);
+    const cleanFileName = formData.fileName
+      .trim()
+      .replace(/\s+/g, '_')
+      .toLowerCase();
+    const newFile: localFileDataType | undefined = {
+      data: data?.data ?? '',
+      name: formData.fileName.trim(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+    localStorage.setItem(`mdEditor-${cleanFileName}`, JSON.stringify(newFile));
+    localStorage.setItem('mdState-cFN', `mdEditor-${cleanFileName}`);
     setOpen(false);
     toast({
       title: 'Saved',
       description: 'File saved to local storage',
     });
+    setData(newFile);
   }
   return (
     <Dialog onOpenChange={setOpen} open={open}>
@@ -104,7 +118,7 @@ const SaveModal: FC<Props> = ({ data, initialFileName }) => {
             />
             <DialogFooter>
               <Button type='submit' className='mx-auto w-32'>
-                {initialFileName ? 'Save' : 'Create'}
+                {data?.name ? 'Save' : 'Create'}
               </Button>
             </DialogFooter>
           </form>

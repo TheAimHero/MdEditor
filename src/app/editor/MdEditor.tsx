@@ -1,14 +1,35 @@
-import React, { useEffect, type FC } from 'react';
+import React, {
+  useEffect,
+  type FC,
+  type SetStateAction,
+  type Dispatch,
+} from 'react';
 import Editor, { type EditorProps, useMonaco } from '@monaco-editor/react';
 import { useTheme } from 'next-themes';
 import { Loader2 } from 'lucide-react';
+import { type localFileDataType } from '@/lib/types';
+import { type editor } from 'monaco-editor';
 
 interface Props {
-  data?: string;
-  setData: React.Dispatch<React.SetStateAction<string>>;
+  data?: localFileDataType;
+  setData: Dispatch<SetStateAction<localFileDataType | undefined>>;
+  setEditor: Dispatch<SetStateAction<editor.IStandaloneCodeEditor | null>>;
 }
 
-const MdEditor: FC<Props> = ({ setData, data }) => {
+const MdEditor: FC<Props> = ({ setData, data, setEditor }) => {
+  function handleEditorChange(value: string | undefined) {
+    if (!value) return;
+    setData((prevData) => {
+      if (!prevData)
+        return {
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          name: `Untitled-${localStorage.length + 1}`,
+          data: '',
+        };
+      return { ...prevData, data: value, updatedAt: new Date() };
+    });
+  }
   const props: EditorProps = {
     className: 'flex-1 w-full',
     options: {
@@ -18,6 +39,7 @@ const MdEditor: FC<Props> = ({ setData, data }) => {
       minimap: { enabled: false },
       overviewRulerLanes: 0,
     },
+    onMount: (editor) => setEditor(editor),
     theme: 'vs-dark',
     defaultLanguage: 'markdown',
     language: 'markdown',
@@ -26,9 +48,9 @@ const MdEditor: FC<Props> = ({ setData, data }) => {
         <Loader2 className='mx-auto h-10 w-10 animate-spin' />
       </div>
     ),
-    onChange: (value) => setData(value ?? ''),
-    defaultValue: data,
-    value: data,
+    onChange: handleEditorChange,
+    defaultValue: data?.data,
+    value: data?.data,
   };
   const monaco = useMonaco();
   const { theme } = useTheme();

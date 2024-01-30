@@ -1,28 +1,28 @@
-# Create T3 App
+# Md.
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+## What does it do?
 
-## What's next? How do I make an app with this?
+- Edit markdown files on the fly on your browser.
+- Live preview.
+- Save files locally.
+- Save files remotely. (Coming Soon)
+- Vim Mode Yay. (Coming Soon)
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+## How do I develope this?
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+1. Clone this git repository locally.
+2. Install dependencies with your node package manager (npm, yarn, pnpm).
+3. Run the db:push script.
+4. Run the dev script.
+5. Develop!!!
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+## Stack Used
 
-## Learn More
+This application using [Next.js](https://nextjs.org/).
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+The database provider used is [Turso](https://turso.tech/).
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+## Known Issues
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
-
-## How do I deploy this?
-
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+- Limited to Credential Login
+- Bad Styles (Please Help!!!)

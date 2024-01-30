@@ -1,4 +1,5 @@
-// import '@/styles/highlightTheme.css';
+import '@/styles/highlightThemeDark.css';
+import '@/styles/highlightTheme.css';
 import React, { type FC } from 'react';
 import Markdown from 'react-markdown';
 import { cn } from '@/lib/utils';
@@ -146,18 +147,17 @@ const components = {
   pre: ({ className, ...props }: Props) => (
     <pre
       className={cn(
-        'mb-4 mt-6 overflow-x-auto rounded-lg border bg-transparent py-4',
+        'mb-4 mt-6 overflow-x-auto rounded-lg border border-black bg-transparent py-4 dark:border-white',
         className,
       )}
       {...props}
     />
   ),
   code: ({ className, ...props }: Props) => {
-    console.log(className);
     return (
       <code
         className={cn(
-          'relative rounded bg-transparent px-[0.3rem] py-[0.2rem] font-mono text-sm',
+          'relative rounded-md bg-transparent px-[0.3rem] py-[0.2rem] font-mono text-sm',
           className,
         )}
         {...props}
@@ -186,13 +186,15 @@ const rehypeHighlightOptions: RehypeHighlightOptions = {
 };
 
 interface PreviewerProps {
-  source: string;
+  source: string | undefined;
 }
 
 const Previewer: FC<PreviewerProps> = ({ source }) => {
   return (
     <Markdown
-      className={'prose dark:prose-invert h-full p-10 dark:bg-[#020817]'}
+      className={
+        'prose dark:prose-invert h-full overflow-scroll p-10 dark:bg-[#020817]'
+      }
       remarkPlugins={[
         [remarkGfm, remarkGfmOptions],
         [remarkMath, remarkMathOptions],
