@@ -5,29 +5,24 @@ import {
   type NextAuthOptions,
 } from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
+import CredentialsProvider from 'next-auth/providers/credentials';
 import { db } from '@/server/db';
 import { env } from '@/env';
 import { type Adapter } from 'next-auth/adapters';
 import { users } from './db/schema/users';
-import {
-  accounts,
-  sessions,
-  verificationTokens,
-} from '@/server/db/schema/auth';
+import { accounts, sessions, verificationTokens } from './db/schema/auth';
 import { type SQLiteTableFn, sqliteTable } from 'drizzle-orm/sqlite-core';
+import bcrypt from 'bcrypt';
+import { randomUUID } from 'crypto';
 
 declare module 'next-auth' {
   interface Session extends DefaultSession {
-    user: {
-      id: string;
-      role: 'USER' | 'MOD' | 'ADMIN';
-      groupId: number | undefined;
-    } & DefaultSession['user'];
+    user: { id: string } & DefaultSession['user'];
   }
 
-  interface User {
-    role: 'USER' | 'MOD' | 'ADMIN';
-  }
+  // interface User {
+  //   role: "USER" | "MOD" | "ADMIN";
+  // }
 }
 
 type TableFnParams = Parameters<SQLiteTableFn>;
@@ -59,13 +54,52 @@ export const authOptions: NextAuthOptions = {
     db,
     dumbAdapter as SQLiteTableFn<undefined>,
   ) as Adapter,
-  pages: { signIn: '/login' },
+  pages: { signIn: '/auth/login', error: '/auth/error' },
   providers: [
     GoogleProvider({
       clientId: env.GOOGLE_CLIENT_ID,
       clientSecret: env.GOOGLE_CLIENT_SECRET,
     }),
+    CredentialsProvider({
+      name: 'Md.',
+      credentials: { email: {}, password: {} },
+      authorize: async (credentials) => {
+        console.log(credentials);
+        if (!credentials?.password || !credentials.password) {
+          return null;
+        }
+        const user = await db.query.users.findFirst({
+          where: (u, { eq }) => eq(u.email, credentials.email),
+          with: { accounts: true },
+        });
+        if (user?.accounts.length !== 0) {
+          throw new Error('Sign in with Google');
+        }
+        if (!user) {
+          const userArr = await db
+            .insert(users)
+            .values({
+              email: credentials.email,
+              password: await bcrypt.hash(credentials.password, 10),
+              id: randomUUID(),
+            })
+            .returning();
+          const user = userArr[0];
+          if (!user) {
+            throw new Error('Failed to create user');
+          }
+          return { id: user.id, email: user.email, name: user.name };
+        }
+        const isValid = await bcrypt.compare(
+          credentials.password,
+          user.password!,
+        );
+        if (isValid) return { id: user.id, email: user.email, name: user.name };
+        return null;
+      },
+    }),
   ],
+  secret: env.NEXTAUTH_SECRET,
 };
 
 export const getServerAuthSession = () => getServerSession(authOptions);

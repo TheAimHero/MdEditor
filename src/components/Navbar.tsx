@@ -10,19 +10,19 @@ const Navbar = async () => {
   return (
     <nav className='flex h-[60px] items-center justify-between px-4 sm:px-8'>
       <Link href='/'>
-        <span className='mx-4 text-xl font-semibold sm:mx-10'>stip.</span>
+        <span className='mx-4 text-xl font-semibold sm:mx-10'>Md.</span>
       </Link>
       <div>
         <div className='flex gap-5'>
           <ModeToggle />
           {session ? (
             <Fragment>
-              <Link className={buttonVariants()} href='/profile'>
-                <div className='flex items-center gap-3'>
-                  <User className='h-4 w-4' />
-                  <span className='sr-only sm:not-sr-only'>Profile</span>
-                </div>
-              </Link>
+              {/* <Link className={buttonVariants()} href='/profile'> */}
+              {/*   <div className='flex items-center gap-3'> */}
+              {/*     <User className='h-4 w-4' /> */}
+              {/*     <span className='sr-only sm:not-sr-only'>Profile</span> */}
+              {/*   </div> */}
+              {/* </Link> */}
               <Link className={buttonVariants()} href='/auth/logout'>
                 <div className='flex items-center gap-3'>
                   <LogOut className='h-4 w-4' />

@@ -8,7 +8,7 @@ import { SessionProvider } from 'next-auth/react';
 function ClientProviders({ children }: { children: React.ReactNode }) {
   return (
     <SessionProvider>
-      <NextThemesProvider attribute='class'>
+      <NextThemesProvider defaultTheme='dark' attribute='class'>
         {children}
         <Toaster />
       </NextThemesProvider>
