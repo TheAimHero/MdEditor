@@ -6,6 +6,7 @@ export const users = sqliteTable('user', {
   id: text('id', { length: 255 }).notNull().primaryKey(),
   name: text('name', { length: 255 }),
   email: text('email', { length: 255 }).notNull(),
+  password: text('password', { length: 255 }),
   emailVerified: int('emailVerified', {
     mode: 'timestamp',
   }).default(sql`CURRENT_TIMESTAMP`),

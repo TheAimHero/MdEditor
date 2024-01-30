@@ -9,7 +9,7 @@ interface Props {
 
 const MdEditor: FC<Props> = ({ setData, data }) => {
   const props: EditorProps = {
-    className: 'h-[clac(100vh-60px)] w-full',
+    className: 'flex-1 w-full',
     options: {
       scrollbar: { vertical: 'hidden', horizontal: 'hidden' },
       overviewRulerBorder: false,

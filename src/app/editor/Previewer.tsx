@@ -1,4 +1,4 @@
-import '@/styles/highlightTheme.css';
+// import '@/styles/highlightTheme.css';
 import React, { type FC } from 'react';
 import Markdown from 'react-markdown';
 import { cn } from '@/lib/utils';
