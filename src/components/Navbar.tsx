@@ -3,7 +3,11 @@ import Link from 'next/link';
 import React, { Fragment } from 'react';
 import { buttonVariants } from './ui/button';
 import { ModeToggle } from './ModeToggle';
-import { LogIn, LogOut, User } from 'lucide-react';
+import {
+  LogIn,
+  LogOut,
+  // User,
+} from 'lucide-react';
 
 const Navbar = async () => {
   const session = await getServerAuthSession();

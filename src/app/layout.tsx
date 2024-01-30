@@ -5,6 +5,7 @@ import { TRPCReactProvider } from '@/trpc/react';
 import Navbar from '@/components/Navbar';
 import { cn } from '@/lib/utils';
 import ClientProviders from '@/components/ClientProviders';
+import { Toaster } from '@/components/ui/toaster';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -29,6 +30,7 @@ export default function RootLayout({
           <ClientProviders>
             <Navbar />
             {children}
+            <Toaster />
           </ClientProviders>
         </TRPCReactProvider>
       </body>

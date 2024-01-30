@@ -16,7 +16,6 @@ import {
 import { Input } from '@/components/ui/input';
 import MaxWidthWrapper from '@/components/MaxWidthWrapper';
 import { signIn } from 'next-auth/react';
-import Link from 'next/link';
 
 const formSchema = z.object({
   email: z.string().email({ message: 'Invalid email' }).min(2).max(50),

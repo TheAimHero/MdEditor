@@ -1,6 +1,7 @@
 import React, { useEffect, type FC } from 'react';
 import Editor, { type EditorProps, useMonaco } from '@monaco-editor/react';
 import { useTheme } from 'next-themes';
+import { Loader2 } from 'lucide-react';
 
 interface Props {
   data?: string;
@@ -20,6 +21,11 @@ const MdEditor: FC<Props> = ({ setData, data }) => {
     theme: 'vs-dark',
     defaultLanguage: 'markdown',
     language: 'markdown',
+    loading: (
+      <div className='my-auto flex h-full w-full items-center justify-between dark:bg-[#020817]'>
+        <Loader2 className='mx-auto h-10 w-10 animate-spin' />
+      </div>
+    ),
     onChange: (value) => setData(value ?? ''),
     defaultValue: data,
     value: data,
