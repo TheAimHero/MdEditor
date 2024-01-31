@@ -11,12 +11,13 @@ import Previewer from './Previewer';
 import { type localFileDataType } from '@/lib/types';
 import { useMediaQuery } from '@uidotdev/usehooks';
 import { type editor } from 'monaco-editor';
-import OptionsBar from './OptionsBar';
-import DeleteFile from './DeleteFile';
-import DownloadButton from './DownloadButton';
-import NewFile from './NewFile';
-import OpenLocal from './OpenLocal';
-import SaveModal from './SaveModal';
+import dynamic from 'next/dynamic';
+const OptionsBar = dynamic(() => import('./OptionsBar'), { ssr: true });
+const DeleteFile = dynamic(() => import('./DeleteFile'));
+const DownloadButton = dynamic(() => import('./DownloadButton'));
+const NewFile = dynamic(() => import('./NewFile'));
+const OpenLocal = dynamic(() => import('./OpenLocal'));
+const SaveModal = dynamic(() => import('./SaveModal'));
 
 const Page = () => {
   const [data, setData] = useState<localFileDataType | undefined>();
