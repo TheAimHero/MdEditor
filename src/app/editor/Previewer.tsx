@@ -9,6 +9,7 @@ import rehypeKatex, { type Options as RehypeKatexOptions } from 'rehype-katex';
 import rehypeHighlight, {
   type Options as RehypeHighlightOptions,
 } from 'rehype-highlight';
+import rehypeRaw from 'rehype-raw';
 
 type Props = { className?: string };
 
@@ -192,6 +193,7 @@ interface PreviewerProps {
 const Previewer: FC<PreviewerProps> = ({ source }) => {
   return (
     <Markdown
+      remarkRehypeOptions={{ allowDangerousHtml: true }}
       className={
         'prose dark:prose-invert h-full overflow-scroll p-10 dark:bg-[#020817]'
       }
@@ -202,6 +204,7 @@ const Previewer: FC<PreviewerProps> = ({ source }) => {
       rehypePlugins={[
         [rehypeKatex, rehypeKatexOptions],
         [rehypeHighlight, rehypeHighlightOptions],
+        [rehypeRaw],
       ]}
       components={components}
     >
