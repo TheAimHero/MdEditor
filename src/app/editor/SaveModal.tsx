@@ -56,7 +56,7 @@ const SaveModal: FC<OptionProps> = ({ data, setData }) => {
     const fileExist = fileList.some(
       (file) =>
         file.fileData.name.toLowerCase() === formData.fileName.toLowerCase(),
-    );
+    ) && formData.fileName.trim() !== data?.name;
     if (fileExist) {
       toast({
         title: 'File name already exists',

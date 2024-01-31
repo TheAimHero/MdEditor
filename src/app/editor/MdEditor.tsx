@@ -9,6 +9,7 @@ import { useTheme } from 'next-themes';
 import { Loader2 } from 'lucide-react';
 import { type localFileDataType } from '@/lib/types';
 import { type editor } from 'monaco-editor';
+import { useMediaQuery } from '@uidotdev/usehooks';
 
 interface Props {
   data?: localFileDataType;
@@ -17,6 +18,7 @@ interface Props {
 }
 
 const MdEditor: FC<Props> = ({ setData, data, setEditor }) => {
+  const device = useMediaQuery('(min-width: 768px)');
   function handleEditorChange(value: string | undefined) {
     if (!value) return;
     setData((prevData) => {
@@ -35,6 +37,7 @@ const MdEditor: FC<Props> = ({ setData, data, setEditor }) => {
     options: {
       scrollbar: { vertical: 'hidden', horizontal: 'hidden' },
       overviewRulerBorder: false,
+      lineNumbers: device ? 'on' : 'off',
       lineDecorationsWidth: 0,
       minimap: { enabled: false },
       overviewRulerLanes: 0,

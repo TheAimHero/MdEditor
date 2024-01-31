@@ -8,11 +8,15 @@ import {
 } from '@/components/ui/resizable';
 import MdEditor from './MdEditor';
 import Previewer from './Previewer';
-import DesktopOptions from './DesktopOptions';
 import { type localFileDataType } from '@/lib/types';
 import { useMediaQuery } from '@uidotdev/usehooks';
-import MobileOptions from './MobileOptions';
 import { type editor } from 'monaco-editor';
+import OptionsBar from './OptionsBar';
+import DeleteFile from './DeleteFile';
+import DownloadButton from './DownloadButton';
+import NewFile from './NewFile';
+import OpenLocal from './OpenLocal';
+import SaveModal from './SaveModal';
 
 const Page = () => {
   const [data, setData] = useState<localFileDataType | undefined>();
@@ -33,7 +37,7 @@ const Page = () => {
     <Fragment>
       <ResizablePanelGroup
         direction={!device ? 'vertical' : 'horizontal'}
-        className='max-h-[calc(100vh-60px)] min-h-[calc(100vh-60px)] w-full border-[1px] dark:border-white md:max-h-[calc(100vh-120px)] md:min-h-[calc(100vh-120px)] sm:border-black'
+        className='max-h-[calc(100vh-60px)] min-h-[calc(100vh-60px)] w-full border-[1px] dark:border-white sm:border-black md:max-h-[calc(100vh-120px)] md:min-h-[calc(100vh-120px)]'
       >
         <ResizablePanel defaultSize={50}>
           <MdEditor data={data} setData={setData} setEditor={setEditor} />
@@ -46,16 +50,13 @@ const Page = () => {
           <Previewer source={data?.data} />
         </ResizablePanel>
       </ResizablePanelGroup>
-      {device ? (
-        <DesktopOptions data={data} setData={setData} editor={editor} />
-      ) : (
-        <MobileOptions
-          data={data}
-          setData={setData}
-          editor={editor}
-          className='group-last:col-span-2'
-        />
-      )}
+      <OptionsBar>
+        <SaveModal data={data} setData={setData} />
+        <NewFile data={data} setData={setData} editor={editor} />
+        <OpenLocal data={data} setData={setData} />
+        <DeleteFile data={data} setData={setData} editor={editor} />
+        <DownloadButton data={data} />
+      </OptionsBar>
     </Fragment>
   );
 };
