@@ -10,6 +10,7 @@ import { Loader2 } from 'lucide-react';
 import { type localFileDataType } from '@/lib/types';
 import { type editor } from 'monaco-editor';
 import { useMediaQuery } from '@uidotdev/usehooks';
+import { dexieDb } from '@/lib/dexieDb';
 
 interface Props {
   data?: localFileDataType;
@@ -19,14 +20,15 @@ interface Props {
 
 const MdEditor: FC<Props> = ({ setData, data, setEditor }) => {
   const device = useMediaQuery('(min-width: 768px)');
-  function handleEditorChange(value: string | undefined) {
+  async function handleEditorChange(value: string | undefined) {
     if (!value) return;
+    const dataCount = await dexieDb.data.count();
     setData((prevData) => {
       if (!prevData)
         return {
           createdAt: new Date(),
           updatedAt: new Date(),
-          name: `Untitled-${localStorage.length + 1}`,
+          name: `Untitled-${dataCount + 1}`,
           data: '',
         };
       return { ...prevData, data: value, updatedAt: new Date() };
@@ -51,7 +53,7 @@ const MdEditor: FC<Props> = ({ setData, data, setEditor }) => {
         <Loader2 className='mx-auto h-10 w-10 animate-spin' />
       </div>
     ),
-    onChange: handleEditorChange,
+    onChange: (value) => handleEditorChange(value),
     defaultValue: data?.data,
     value: data?.data,
   };

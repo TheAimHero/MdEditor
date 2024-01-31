@@ -2,13 +2,12 @@ import { Button } from '@/components/ui/button';
 import { type OptionProps } from '@/lib/types';
 import { cn } from '@/lib/utils';
 import React, { type FC } from 'react';
+import { dexieDb } from '@/lib/dexieDb';
 
 const DeleteFile: FC<OptionProps> = ({ data, setData, className, editor }) => {
   function handleClick() {
     if (data) {
-      localStorage.removeItem(
-        `mdEditor-${data.name.trim().toLowerCase().replace(/\s+/g, '_')}`,
-      );
+      dexieDb.data.delete(data.name);
       setData(undefined);
       if (editor) editor.getModel()?.setValue('');
     }

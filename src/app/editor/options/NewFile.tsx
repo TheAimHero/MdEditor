@@ -1,14 +1,16 @@
 import { Button } from '@/components/ui/button';
+import { dexieDb } from '@/lib/dexieDb';
 import { type OptionProps } from '@/lib/types';
 import { cn } from '@/lib/utils';
 import React, { type FC } from 'react';
 
 const NewFile: FC<OptionProps> = ({ editor, setData, className }) => {
-  function handleClick() {
+  async function handleClick() {
+    const dataNum = await dexieDb.data.count();
     setData({
       createdAt: new Date(),
       updatedAt: new Date(),
-      name: `Untitled-${localStorage.length + 1}`,
+      name: `Untitled-${dataNum}`,
       data: '',
     });
     editor?.getModel()?.setValue('');

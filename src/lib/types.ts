@@ -6,6 +6,7 @@ export type localFileDataType = {
   data: string;
   createdAt: Date;
   updatedAt: Date;
+  images: number[];
 };
 
 export interface OptionProps {

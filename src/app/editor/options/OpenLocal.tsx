@@ -15,27 +15,20 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
-import { type OptionProps, type localFileDataType } from '@/lib/types';
+import { type OptionProps } from '@/lib/types';
 import { ArrowUpDown, CheckIcon } from 'lucide-react';
+import { type DataInterface, dexieDb } from '@/lib/dexieDb';
 
-type OptionListType = { item: string; fileData: localFileDataType };
+// type OptionListType = { item: string; fileData: localFileDataType };
 
 const OpenLocal: FC<OptionProps> = ({ data, setData }) => {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(data?.name);
-  const [options, setOptions] = useState<OptionListType[]>([]);
+  const [options, setOptions] = useState<DataInterface[]>([]);
   useEffect(() => {
-    const fileList: { item: string; fileData: localFileDataType }[] = [];
-    for (let index = 0; index < localStorage.length; index++) {
-      const item = localStorage.key(index);
-      if (item?.includes('mdEditor-')) {
-        const fileData = JSON.parse(
-          localStorage.getItem(item)!,
-        ) as localFileDataType;
-        fileList.push({ fileData, item });
-      }
-    }
-    setOptions(fileList);
+    void dexieDb.data.toArray().then((data) => {
+      if (data) setOptions(data);
+    });
   }, [open]);
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -59,20 +52,20 @@ const OpenLocal: FC<OptionProps> = ({ data, setData }) => {
           <CommandGroup>
             {options.map((option) => (
               <CommandItem
-                key={option.item}
-                value={option.item}
+                key={option.name}
+                value={option.name}
                 onSelect={(currentValue) => {
-                  setData(option.fileData);
+                  setData(option);
                   setValue(currentValue);
-                  localStorage.setItem('mdState-cFN', option.item);
+                  localStorage.setItem('mdState-cFN', option.name);
                   setOpen(false);
                 }}
               >
-                {option.fileData.name}
+                {option.name}
                 <CheckIcon
                   className={cn(
                     'ml-auto h-4 w-4',
-                    value === option.item ? 'opacity-100' : 'opacity-0',
+                    value === option.name ? 'opacity-100' : 'opacity-0',
                   )}
                 />
               </CommandItem>

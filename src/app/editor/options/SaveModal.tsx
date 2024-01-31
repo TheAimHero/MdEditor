@@ -27,6 +27,7 @@ import {
 } from '@/components/ui/form';
 import { useToast } from '@/components/ui/use-toast';
 import { type OptionProps, type localFileDataType } from '@/lib/types';
+import { dexieDb } from '@/lib/dexieDb';
 
 const FormSchema = z.object({
   fileName: z.string().min(2, { message: "File name can't be empty" }),
@@ -42,21 +43,12 @@ const SaveModal: FC<OptionProps> = ({ data, setData }) => {
   useEffect(() => {
     form.setValue('fileName', data?.name ?? '');
   }, [data?.name, form]);
-  function onSubmit(formData: z.infer<typeof FormSchema>) {
-    const fileList: { item: string; fileData: localFileDataType }[] = [];
-    for (let index = 0; index < localStorage.length; index++) {
-      const item = localStorage.key(index);
-      if (item?.includes('mdEditor-')) {
-        const fileData = JSON.parse(
-          localStorage.getItem(item)!,
-        ) as localFileDataType;
-        fileList.push({ fileData, item });
-      }
-    }
-    const fileExist = fileList.some(
-      (file) =>
-        file.fileData.name.toLowerCase() === formData.fileName.toLowerCase(),
-    ) && formData.fileName.trim() !== data?.name;
+  async function onSubmit(formData: z.infer<typeof FormSchema>) {
+    const fileList = await dexieDb.data.toArray();
+    const fileExist =
+      fileList.some(
+        (file) => file.name.toLowerCase() === formData.fileName.toLowerCase(),
+      ) && formData.fileName.trim() !== data?.name;
     if (fileExist) {
       toast({
         title: 'File name already exists',
@@ -66,20 +58,15 @@ const SaveModal: FC<OptionProps> = ({ data, setData }) => {
       form.setValue('fileName', '');
       return;
     }
-    const removeFileKey = data?.name.trim().toLowerCase().replace(/\s+/g, '_');
-    localStorage.removeItem(`mdEditor-${removeFileKey}`);
-    const cleanFileName = formData.fileName
-      .trim()
-      .replace(/\s+/g, '_')
-      .toLowerCase();
     const newFile: localFileDataType | undefined = {
       data: data?.data ?? '',
       name: formData.fileName.trim(),
-      createdAt: new Date(),
+      createdAt: data?.createdAt ?? new Date(),
       updatedAt: new Date(),
+      images: data?.images ?? [],
     };
-    localStorage.setItem(`mdEditor-${cleanFileName}`, JSON.stringify(newFile));
-    localStorage.setItem('mdState-cFN', `mdEditor-${cleanFileName}`);
+    data && (await dexieDb.data.delete(data?.name));
+    data && (await dexieDb.data.add({ ...newFile }));
     setOpen(false);
     toast({
       title: 'Saved',
