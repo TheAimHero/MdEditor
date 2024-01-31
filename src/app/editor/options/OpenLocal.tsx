@@ -43,10 +43,10 @@ const OpenLocal: FC<OptionProps> = ({ data, setData }) => {
         <Button
           variant='outline'
           role='combobox'
-          className='sm:min-w-[200px]'
+          className='truncate md:max-w-[150px]'
           aria-expanded={open}
         >
-          <span className='flex-1 truncate'>
+          <span className='truncate'>
             {data?.name ? data?.name : 'Select file...'}
           </span>
           <ArrowUpDown className='ml-2 h-4 w-4 shrink-0 opacity-50' />

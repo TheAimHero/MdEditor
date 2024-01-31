@@ -1,7 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { type OptionProps } from '@/lib/types';
 import { cn } from '@/lib/utils';
-import { Trash2 } from 'lucide-react';
 import React, { type FC } from 'react';
 
 const DeleteFile: FC<OptionProps> = ({ data, setData, className, editor }) => {
@@ -19,13 +18,12 @@ const DeleteFile: FC<OptionProps> = ({ data, setData, className, editor }) => {
       variant={'outline'}
       role='combobox'
       className={cn(
-        'flex min-w-[150px] items-center gap-2 bg-red-400/90 hover:bg-red-500/80',
+        'flex items-center gap-2 bg-red-400/90 hover:bg-red-500/80 md:max-w-[100px]',
         className,
       )}
       onClick={handleClick}
     >
-      <Trash2 className='h-4 w-4' />
-      <span>Delete File</span>
+      <span className='truncate'>Delete</span>
     </Button>
   );
 };

@@ -12,7 +12,7 @@ const DownloadButton: FC<Props> = ({ data }) => {
     return (
       <Button
         disabled
-        className='col-span-2 flex w-full gap-1 md:max-w-[150px]'
+        className='col-span-2 flex w-full gap-1 truncate truncate md:max-w-[100px]'
         variant='outline'
       >
         <DownloadIcon className='h-4 w-4' />
@@ -25,7 +25,7 @@ const DownloadButton: FC<Props> = ({ data }) => {
     <Button
       variant='default'
       disabled={!data}
-      className='col-span-2 flex w-full gap-1 md:max-w-[150px]'
+      className='col-span-2 flex w-full gap-1 truncate md:max-w-[100px]'
     >
       <Fragment>
         <DownloadIcon className='h-4 w-4' />

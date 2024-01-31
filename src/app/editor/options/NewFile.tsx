@@ -18,7 +18,7 @@ const NewFile: FC<OptionProps> = ({ editor, setData, className }) => {
     <Button
       variant={'outline'}
       role={'combobox'}
-      className={cn('', className)}
+      className={cn('truncate md:max-w-[100px]', className)}
       onClick={handleClick}
     >
       New File

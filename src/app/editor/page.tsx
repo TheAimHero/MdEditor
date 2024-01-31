@@ -12,12 +12,12 @@ import { type localFileDataType } from '@/lib/types';
 import { useMediaQuery } from '@uidotdev/usehooks';
 import { type editor } from 'monaco-editor';
 import dynamic from 'next/dynamic';
-const OptionsBar = dynamic(() => import('./OptionsBar'), { ssr: true });
-const DeleteFile = dynamic(() => import('./DeleteFile'));
-const DownloadButton = dynamic(() => import('./DownloadButton'));
-const NewFile = dynamic(() => import('./NewFile'));
-const OpenLocal = dynamic(() => import('./OpenLocal'));
-const SaveModal = dynamic(() => import('./SaveModal'));
+const OptionsBar = dynamic(() => import('./options/OptionsBar'), { ssr: true });
+const DeleteFile = dynamic(() => import('./options/DeleteFile'));
+const DownloadButton = dynamic(() => import('./options/DownloadButton'));
+const NewFile = dynamic(() => import('./options/NewFile'));
+const OpenLocal = dynamic(() => import('./options/OpenLocal'));
+const SaveModal = dynamic(() => import('./options/SaveModal'));
 
 const Page = () => {
   const [data, setData] = useState<localFileDataType | undefined>();
