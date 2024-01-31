@@ -5,8 +5,6 @@
 await import('./src/env.js');
 
 /** @type {import("next").NextConfig} */
-const config = {
-  swcMinify: true,
-};
+const config = {};
 
 export default config;
