@@ -71,6 +71,8 @@ const components = {
   a: ({ className, ...props }: Props) => (
     <a
       className={cn('font-medium underline underline-offset-4', className)}
+      target='_blank'
+      rel='noopener noreferrer'
       {...props}
     />
   ),
