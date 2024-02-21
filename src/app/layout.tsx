@@ -13,8 +13,8 @@ const inter = Inter({
 });
 
 export const metadata = {
-  title: 'Md.',
-  description: 'Stremline Student Management',
+  title: 'Qd.',
+  description: 'Markdown On The Fly.',
   icons: [{ rel: 'icon', url: '/favicon.ico' }],
 };
 
