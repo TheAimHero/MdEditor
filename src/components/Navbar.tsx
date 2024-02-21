@@ -12,7 +12,7 @@ import {
 const Navbar = async () => {
   const session = await getServerAuthSession();
   return (
-    <nav className='flex h-[60px] items-center justify-between px-4 sm:px-8'>
+    <nav className='flex h-[60px] items-center justify-between px-4 sm:px-8 bg-[hsl(var(--accent))]'>
       <Link href='/'>
         <span className='mx-4 text-xl font-semibold sm:mx-10'>Md.</span>
       </Link>

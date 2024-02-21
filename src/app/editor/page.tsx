@@ -13,12 +13,12 @@ import { useMediaQuery } from '@uidotdev/usehooks';
 import { type editor } from 'monaco-editor';
 import dynamic from 'next/dynamic';
 import { dexieDb } from '@/lib/dexieDb';
-const OptionsBar = dynamic(() => import('./options/OptionsBar'));
-const DeleteFile = dynamic(() => import('./options/DeleteFile'));
-const DownloadButton = dynamic(() => import('./options/DownloadButton'));
-const NewFile = dynamic(() => import('./options/NewFile'));
-const OpenLocal = dynamic(() => import('./options/OpenLocal'));
-const SaveModal = dynamic(() => import('./options/SaveModal'));
+const OptionsBar = dynamic(() => import('./_options/OptionsBar'));
+const DeleteFile = dynamic(() => import('./_options/DeleteFile'));
+const DownloadButton = dynamic(() => import('./_options/DownloadButton'));
+const NewFile = dynamic(() => import('./_options/NewFile'));
+const OpenLocal = dynamic(() => import('./_options/OpenLocal'));
+const SaveModal = dynamic(() => import('./_options/SaveModal'));
 const ImageSidebar = dynamic(() => import('./ImageSidebar'));
 
 const Page = () => {
@@ -58,7 +58,9 @@ const Page = () => {
         <DownloadButton data={data} />
         {device && <ImageSidebar />}
       </OptionsBar>
-      {!device && <ImageSidebar className={'fixed bottom-16 right-4 w-[126px]'} />}
+      {!device && (
+        <ImageSidebar className={'fixed bottom-16 right-4 w-[126px]'} />
+      )}
     </Fragment>
   );
 };

@@ -25,7 +25,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang='en'>
-      <body className={cn(`font-sans`, inter.variable)}>
+      <body
+        className={cn(`bg-[hsl(var(--background))] font-sans`, inter.variable)}
+      >
         <TRPCReactProvider>
           <ClientProviders>
             <Navbar />

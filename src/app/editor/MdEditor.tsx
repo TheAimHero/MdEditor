@@ -28,6 +28,7 @@ const MdEditor: FC<Props> = ({ setData, data, setEditor }) => {
         return {
           createdAt: new Date(),
           updatedAt: new Date(),
+          images: [],
           name: `Untitled-${dataCount + 1}`,
           data: '',
         };
@@ -53,6 +54,7 @@ const MdEditor: FC<Props> = ({ setData, data, setEditor }) => {
         <Loader2 className='mx-auto h-10 w-10 animate-spin' />
       </div>
     ),
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
     onChange: (value) => handleEditorChange(value),
     defaultValue: data?.data,
     value: data?.data,

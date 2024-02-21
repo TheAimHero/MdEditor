@@ -11,6 +11,7 @@ const NewFile: FC<OptionProps> = ({ editor, setData, className }) => {
       createdAt: new Date(),
       updatedAt: new Date(),
       name: `Untitled-${dataNum}`,
+      images: [],
       data: '',
     });
     editor?.getModel()?.setValue('');

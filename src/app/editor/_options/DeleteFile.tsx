@@ -5,9 +5,9 @@ import React, { type FC } from 'react';
 import { dexieDb } from '@/lib/dexieDb';
 
 const DeleteFile: FC<OptionProps> = ({ data, setData, className, editor }) => {
-  function handleClick() {
+  async function handleClick() {
     if (data) {
-      dexieDb.data.delete(data.name);
+      await dexieDb.data.delete(data.name);
       setData(undefined);
       if (editor) editor.getModel()?.setValue('');
     }

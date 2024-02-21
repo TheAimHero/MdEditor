@@ -25,4 +25,4 @@ The database provider used is [Turso](https://turso.tech/).
 ## Known Issues
 
 - Limited to Credential Login
-- Bad Styles (Please Help!!!)
+- Images do not work
